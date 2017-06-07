@@ -8,13 +8,37 @@
    <artifactId>shared-object-spaces</artifactId>
    <version>1.0-SNAPSHOT</version>
 
+   <properties>
+      <infinispan-bom.version>9.0.1.Final</infinispan-bom.version>
+      <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
+   </properties>
+
+   <dependencyManagement>
+      <dependencies>
+         <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-bom</artifactId>
+            <version>${infinispan-bom.version}</version>
+            <type>pom</type>
+            <scope>import</scope>
+         </dependency>
+      </dependencies>
+   </dependencyManagement>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.infinispan</groupId>
+         <artifactId>infinispan-core</artifactId>
+      </dependency>
+   </dependencies>
+
    <build>
       <pluginManagement>
          <plugins>
             <plugin>
                <groupId>org.apache.maven.plugins</groupId>
                <artifactId>maven-compiler-plugin</artifactId>
-               <version>3.6.1</version>
+               <version>${maven-compiler-plugin.version}</version>
                <configuration>
                   <source>1.8</source>
                   <target>1.8</target>
