@@ -51,15 +51,12 @@ public class Country {
       @Override
       public void writeObject(ObjectOutput out, Country obj) throws IOException {
          out.writeUTF(obj.name);
-         out.writeUTF(obj.currency);
       }
 
       @Override
       public Country readObject(ObjectInput in) throws IOException {
          String name = in.readUTF();
-         String currency = in.readUTF();
-         return new Country(name, currency);
-         // return countryFactory.getCountry(name);
+         return countryFactory.getCountry(name);
       }
    }
 
