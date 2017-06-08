@@ -20,9 +20,10 @@ public class LifecycleCallbacks extends AbstractModuleLifecycle {
       Country.Externalizer countryExt = new Country.Externalizer();
 
       CountryFactory countryFactory = new CountryFactory();
+      // Shared object space has to be registered before injection place!!
       gcr.registerComponent(countryFactory, CountryFactory.class);
-      gcr.registerComponent(personExt, personExt.getClass().getName());
       gcr.registerComponent(countryExt, countryExt.getClass().getName());
+      // No need to register other externalizer because it has no bindings
 
       Map<Integer, AdvancedExternalizer<?>> map = new HashMap<>();
       map.put(1001, personExt);
