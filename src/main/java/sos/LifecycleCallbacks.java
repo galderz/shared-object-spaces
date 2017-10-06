@@ -1,9 +1,5 @@
 package sos;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.infinispan.commons.marshall.AdvancedExternalizer;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.factories.GlobalComponentRegistry;
 import org.infinispan.lifecycle.AbstractModuleLifecycle;
