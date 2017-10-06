@@ -15,7 +15,7 @@ public class CountryFactory {
       countries.put("Spain", new Country("Spain", "EUR"));
    }
 
-   public   Country getCountry(String name) {
+   public Country getCountry(String name) {
       return countries.get(name);
    }
 
