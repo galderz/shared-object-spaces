@@ -25,11 +25,8 @@ public class LifecycleCallbacks extends AbstractModuleLifecycle {
       gcr.registerComponent(countryExt, countryExt.getClass().getName());
       // No need to register other externalizer because it has no bindings
 
-      Map<Integer, AdvancedExternalizer<?>> map = new HashMap<>();
-      map.put(1001, personExt);
-      map.put(1002, countryExt);
-
-      global.serialization().advancedExternalizers().putAll(map);
+      global.serialization().advancedExternalizers().put(1001, personExt);
+      global.serialization().advancedExternalizers().put(1002, countryExt);
    }
 
 }
