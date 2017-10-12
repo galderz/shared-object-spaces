@@ -1,15 +1,12 @@
 package sos.pojos;
 
+import org.infinispan.commons.marshall.AdvancedExternalizer;
+
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.Collections;
 import java.util.Set;
-
-import org.infinispan.commons.marshall.AdvancedExternalizer;
-import org.infinispan.factories.annotations.Inject;
-import org.infinispan.factories.scopes.Scope;
-import org.infinispan.factories.scopes.Scopes;
 
 public class Country {
 
@@ -28,36 +25,29 @@ public class Country {
             name, currency, System.identityHashCode(this));
    }
 
-   @Scope(Scopes.GLOBAL)
-   public static final class Externalizer implements AdvancedExternalizer<Country> {
-
-      private CountryFactory countryFactory;
-
-      @Inject
-      public void setCountryFactory(CountryFactory countryFactory) {
-         this.countryFactory = countryFactory;
-      }
+//   @Scope(Scopes.GLOBAL)
+   public static final class Externalizer implements AdvancedExternalizer<Object> {
 
       @Override
-      public Set<Class<? extends Country>> getTypeClasses() {
+      public Set<Class<?>> getTypeClasses() {
          return Collections.singleton(Country.class);
       }
 
       @Override
       public Integer getId() {
-         return null;
+         return 1001;
       }
 
       @Override
-      public void writeObject(ObjectOutput out, Country obj) throws IOException {
-         out.writeUTF(obj.name);
+      public void writeObject(ObjectOutput out, Object obj) throws IOException {
+         out.writeUTF(((Country) obj).name);
       }
 
       @Override
-      public Country readObject(ObjectInput in) throws IOException {
-         String name = in.readUTF();
-         return countryFactory.getCountry(name);
+      public String readObject(ObjectInput in) throws IOException {
+         return in.readUTF();
       }
+
    }
 
 }

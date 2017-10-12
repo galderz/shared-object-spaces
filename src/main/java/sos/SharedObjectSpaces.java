@@ -2,8 +2,12 @@ package sos;
 
 import org.infinispan.factories.GlobalComponentRegistry;
 
+import sos.infinispan.Space;
+import sos.pojos.Country;
 import sos.pojos.CountryFactory;
 import sos.pojos.Person;
+
+import java.util.ServiceLoader;
 
 /**
  * Run with:
@@ -16,10 +20,12 @@ public class SharedObjectSpaces {
    public static void main(String[] args) {
       Cluster.<String, Person>withCluster((c0, c1) -> {
          GlobalComponentRegistry gcr0 = c0.getCacheManager().getGlobalComponentRegistry();
-         CountryFactory countryFactory0 = gcr0.getComponent(CountryFactory.class);
+         ServiceLoader<Space> srvLoader = gcr0.getComponent(ServiceLoader.class);
 
-         Person me = new Person("me", countryFactory0.getCountry("Spain"));
-         Person you = new Person("you", countryFactory0.getCountry("Spain"));
+         Space space = srvLoader.iterator().next();
+
+         Person me = new Person("me", (Country) space.get("Spain"));
+         Person you = new Person("you", (Country) space.get("Spain"));
 
          c0.put("me", me);
          c0.put("you", you);

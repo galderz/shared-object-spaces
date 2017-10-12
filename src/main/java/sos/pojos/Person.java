@@ -7,7 +7,10 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
+import org.infinispan.commons.marshall.Externalizer;
+import org.infinispan.commons.marshall.SerializeWith;
 
+@SerializeWith(Person.ExternalizerImpl.class)
 public class Person {
 
    public final String name;
@@ -25,17 +28,7 @@ public class Person {
             nationality, name, System.identityHashCode(this));
    }
 
-   public static final class Externalizer implements AdvancedExternalizer<Person> {
-
-      @Override
-      public Set<Class<? extends Person>> getTypeClasses() {
-         return Collections.singleton(Person.class);
-      }
-
-      @Override
-      public Integer getId() {
-         return null;
-      }
+   public static final class ExternalizerImpl implements Externalizer<Person> {
 
       @Override
       public void writeObject(ObjectOutput out, Person obj) throws IOException {
@@ -49,6 +42,7 @@ public class Person {
          Object nationality = in.readObject();
          return new Person(name, (Country) nationality);
       }
+
    }
 
 }
