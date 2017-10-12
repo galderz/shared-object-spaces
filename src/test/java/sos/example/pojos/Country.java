@@ -1,4 +1,4 @@
-package sos.pojos;
+package sos.example.pojos;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
 
@@ -25,7 +25,6 @@ public class Country {
             name, currency, System.identityHashCode(this));
    }
 
-//   @Scope(Scopes.GLOBAL)
    public static final class Externalizer implements AdvancedExternalizer<Object> {
 
       @Override

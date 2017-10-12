@@ -1,13 +1,10 @@
-package sos.pojos;
+package sos.example.pojos;
 
-import com.sun.tools.doclets.formats.html.SourceToHTMLConverter;
 import org.infinispan.commons.marshall.AdvancedExternalizer;
 import sos.infinispan.Space;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentMap;
 
 public class CountrySpace implements Space {
 

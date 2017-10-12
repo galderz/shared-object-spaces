@@ -1,4 +1,4 @@
-package sos;
+package sos.example;
 
 import java.util.function.BiConsumer;
 

@@ -1,13 +1,9 @@
-package sos;
+package sos.example;
 
 import org.infinispan.factories.GlobalComponentRegistry;
-
+import sos.example.pojos.Country;
+import sos.example.pojos.Person;
 import sos.infinispan.Space;
-import sos.pojos.Country;
-import sos.pojos.CountryFactory;
-import sos.pojos.Person;
-
-import java.util.ServiceLoader;
 
 /**
  * Run with:
