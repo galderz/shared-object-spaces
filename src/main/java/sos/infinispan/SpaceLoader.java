@@ -17,12 +17,10 @@ public class SpaceLoader extends AbstractModuleLifecycle {
    @Override
    public void cacheManagerStarting(GlobalComponentRegistry gcr, GlobalConfiguration global) {
       ServiceLoader<Space> srvLoader = ServiceLoader.load(Space.class);
-
-      gcr.registerComponent(srvLoader, ServiceLoader.class);
-      
       Iterator<Space> it = srvLoader.iterator();
       while (it.hasNext()) {
          Space space = it.next();
+         gcr.registerComponent(space, space.name());
          ExternalizerWithDataContainer ext = new ExternalizerWithDataContainer(space);
          global.serialization().advancedExternalizers().put(ext.getId(), ext);
       }

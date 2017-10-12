@@ -22,24 +22,14 @@ public class CountrySpace implements Space {
       countries.put("Spain", new Country("Spain", "EUR"));
    }
 
-//   @Override
-//   public Pool pool(ConcurrentMap dataContainer) {
-//      return new Pool() {
-//         @Override
-//         public void put(Object key, Object value) {
-//            dataContainer.put(key, value);
-//         }
-//
-//         @Override
-//         public Optional<Object> get(Object key) {
-//            return Optional.ofNullable(dataContainer.get(key));
-//         }
-//      };
-//   }
-
    @Override
    public AdvancedExternalizer<Object> externalizer() {
       return externalizer;
+   }
+
+   @Override
+   public String name() {
+      return "country-space";
    }
 
    @Override

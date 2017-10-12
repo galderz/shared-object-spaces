@@ -6,6 +6,8 @@ public interface Space {
 
    AdvancedExternalizer externalizer();
 
+   String name();
+
    void put(Object key, Object value);
 
    Object get(Object key);
