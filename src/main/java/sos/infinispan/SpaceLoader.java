@@ -1,36 +1,56 @@
 package sos.infinispan;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
+import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.global.GlobalConfiguration;
+import org.infinispan.factories.ComponentRegistry;
 import org.infinispan.factories.GlobalComponentRegistry;
 import org.infinispan.lifecycle.AbstractModuleLifecycle;
 
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.Iterator;
 import java.util.ServiceLoader;
 import java.util.Set;
 
 public class SpaceLoader extends AbstractModuleLifecycle {
 
    @Override
+   public void cacheStarting(ComponentRegistry cr, Configuration configuration, String cacheName) {
+      Space space = cr.getGlobalComponentRegistry().getComponent(Space.class, cacheName);
+      if (space != null && space.initializeFor(cr)) {
+         space.init(cr);
+         cr.registerComponent(space, Space.class);
+      }
+
+//      ServiceLoader<Space> srvLoader = ServiceLoader.load(Space.class);
+//      for (Space space : srvLoader) {
+//         if (space.initializeFor(cr)) {
+//         }
+//      }
+
+//      if (space.initializeFor(cr.getGlobalComponentRegistry()), cacheName) {
+//         ///
+//         space.init(...);
+//      }
+
+   }
+
+   @Override
    public void cacheManagerStarting(GlobalComponentRegistry gcr, GlobalConfiguration global) {
       ServiceLoader<Space> srvLoader = ServiceLoader.load(Space.class);
-      Iterator<Space> it = srvLoader.iterator();
-      while (it.hasNext()) {
-         Space space = it.next();
-         gcr.registerComponent(space, space.name());
-         ExternalizerWithDataContainer ext = new ExternalizerWithDataContainer(space);
+      for (Space space : srvLoader) {
+         gcr.registerComponent(space, space.cacheName());
+         SpaceExternalizer ext = new SpaceExternalizer(space);
          global.serialization().advancedExternalizers().put(ext.getId(), ext);
       }
    }
 
-   private final static class ExternalizerWithDataContainer implements AdvancedExternalizer<Object> {
+   private final static class SpaceExternalizer implements AdvancedExternalizer<Object> {
 
       private final Space space;
 
-      private ExternalizerWithDataContainer(Space space) {
+      private SpaceExternalizer(Space space) {
          this.space = space;
       }
 

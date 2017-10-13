@@ -1,6 +1,7 @@
 package sos.example.pojos;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
+import org.infinispan.factories.ComponentRegistry;
 import sos.infinispan.Space;
 
 import java.util.HashMap;
@@ -16,7 +17,7 @@ public class CountrySpace implements Space {
 
    public CountrySpace() {
       System.out.printf("@%x%n", System.identityHashCode(this));
-      countries.put("Spain", new Country("Spain", "EUR"));
+
    }
 
    @Override
@@ -24,19 +25,34 @@ public class CountrySpace implements Space {
       return externalizer;
    }
 
-   @Override
-   public String name() {
-      return "country-space";
-   }
-
-   @Override
-   public void put(Object key, Object value) {
-      countries.put(key, value);
-   }
+//   @Override
+//   public String name() {
+//      return "country-space";
+//   }
+//
+//   @Override
+//   public void put(Object key, Object value) {
+//      countries.put(key, value);
+//   }
 
    @Override
    public Object get(Object key) {
       return countries.get(key);
+   }
+
+   @Override
+   public void init(ComponentRegistry cr) {
+      countries.put("Spain", new Country("Spain", "EUR"));
+   }
+
+   @Override
+   public boolean initializeFor(ComponentRegistry cr) {
+      return cr.getCacheName().equals(cacheName());
+   }
+
+   @Override
+   public String cacheName() {
+      return "inhabitants";
    }
 
 }

@@ -28,7 +28,7 @@ class Cluster {
       ConfigurationBuilder builder = new ConfigurationBuilder();
       builder.clustering().cacheMode(CacheMode.DIST_SYNC).hash().numOwners(2);
       EmbeddedCacheManager cm = new DefaultCacheManager(global.build(), builder.build());
-      return cm.getCache();
+      return cm.getCache("inhabitants");
    }
 
 }
