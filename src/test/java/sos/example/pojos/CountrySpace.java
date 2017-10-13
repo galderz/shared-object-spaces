@@ -17,23 +17,12 @@ public class CountrySpace implements Space {
 
    public CountrySpace() {
       System.out.printf("@%x%n", System.identityHashCode(this));
-
    }
 
    @Override
    public AdvancedExternalizer<Object> externalizer() {
       return externalizer;
    }
-
-//   @Override
-//   public String name() {
-//      return "country-space";
-//   }
-//
-//   @Override
-//   public void put(Object key, Object value) {
-//      countries.put(key, value);
-//   }
 
    @Override
    public Object get(Object key) {
@@ -43,11 +32,6 @@ public class CountrySpace implements Space {
    @Override
    public void init(ComponentRegistry cr) {
       countries.put("Spain", new Country("Spain", "EUR"));
-   }
-
-   @Override
-   public boolean initializeFor(ComponentRegistry cr) {
-      return cr.getCacheName().equals(cacheName());
    }
 
    @Override

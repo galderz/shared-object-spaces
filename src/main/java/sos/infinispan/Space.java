@@ -2,8 +2,6 @@ package sos.infinispan;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
 import org.infinispan.factories.ComponentRegistry;
-import org.infinispan.factories.GlobalComponentRegistry;
-import org.infinispan.manager.EmbeddedCacheManager;
 
 public interface Space {
 
@@ -12,7 +10,9 @@ public interface Space {
    void init(ComponentRegistry cr);
 
    // True/false
-   boolean initializeFor(ComponentRegistry cr);
+   default boolean initializeFor(ComponentRegistry cr) {
+      return cr.getCacheName().equals(cacheName());
+   }
 
    // Cache name for which this space is registered
    //

@@ -1,7 +1,6 @@
 package sos.example;
 
 import org.infinispan.factories.ComponentRegistry;
-import org.infinispan.factories.GlobalComponentRegistry;
 import sos.example.pojos.Country;
 import sos.example.pojos.Person;
 import sos.infinispan.Space;
@@ -16,9 +15,6 @@ public class SharedObjectSpaces {
 
    public static void main(String[] args) {
       Cluster.<String, Person>withCluster((c0, c1) -> {
-//         GlobalComponentRegistry gcr0 = c0.getCacheManager().getGlobalComponentRegistry();
-//         Space countrySpace = gcr0.getComponent(Space.class, "country-space");
-
          ComponentRegistry cr0 = c0.getAdvancedCache().getComponentRegistry();
          Space countrySpace = cr0.getComponent(Space.class);
 

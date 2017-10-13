@@ -22,18 +22,6 @@ public class SpaceLoader extends AbstractModuleLifecycle {
          space.init(cr);
          cr.registerComponent(space, Space.class);
       }
-
-//      ServiceLoader<Space> srvLoader = ServiceLoader.load(Space.class);
-//      for (Space space : srvLoader) {
-//         if (space.initializeFor(cr)) {
-//         }
-//      }
-
-//      if (space.initializeFor(cr.getGlobalComponentRegistry()), cacheName) {
-//         ///
-//         space.init(...);
-//      }
-
    }
 
    @Override

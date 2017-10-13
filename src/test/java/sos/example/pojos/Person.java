@@ -7,6 +7,8 @@ import java.io.ObjectOutput;
 import org.infinispan.commons.marshall.Externalizer;
 import org.infinispan.commons.marshall.SerializeWith;
 
+// Could just as well been marshalled with AdvancedExternalizer but would require pre-registration.
+// @SerializeWith was simply used for ease of use.
 @SerializeWith(Person.ExternalizerImpl.class)
 public class Person {
 
