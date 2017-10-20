@@ -15,8 +15,7 @@ public class SharedObjectSpaces {
 
    public static void main(String[] args) {
       Cluster.<String, Person>withCluster((c0, c1) -> {
-         ComponentRegistry cr0 = c0.getAdvancedCache().getComponentRegistry();
-         Space countrySpace = cr0.getComponent(Space.class);
+         Space countrySpace = c0.getCacheManager().getGlobalComponentRegistry().getComponent(Space.class);
 
          Person me = new Person("me", (Country) countrySpace.get("Spain"));
          Person you = new Person("you", (Country) countrySpace.get("Spain"));

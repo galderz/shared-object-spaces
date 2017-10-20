@@ -1,7 +1,7 @@
 package sos.example.pojos;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
-import org.infinispan.factories.ComponentRegistry;
+import org.infinispan.factories.GlobalComponentRegistry;
 import sos.infinispan.Space;
 
 import java.util.HashMap;
@@ -12,7 +12,7 @@ public class CountrySpace implements Space {
    private AdvancedExternalizer<Object> externalizer =
       new Country.Externalizer();
 
-   // TODO: Make it pluggable
+   // TODO: Make it pluggable - DataContainer impl would be fine...
    private final Map<Object, Object> countries = new HashMap<>();
 
    public CountrySpace() {
@@ -30,13 +30,8 @@ public class CountrySpace implements Space {
    }
 
    @Override
-   public void init(ComponentRegistry cr) {
+   public void init(GlobalComponentRegistry cr) {
       countries.put("Spain", new Country("Spain", "EUR"));
-   }
-
-   @Override
-   public String cacheName() {
-      return "inhabitants";
    }
 
 }
