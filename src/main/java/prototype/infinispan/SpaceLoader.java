@@ -1,4 +1,4 @@
-package sos.infinispan;
+package prototype.infinispan;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
 import org.infinispan.configuration.global.GlobalConfiguration;

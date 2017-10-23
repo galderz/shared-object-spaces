@@ -1,4 +1,4 @@
-package sos.example.pojos;
+package prototype.example.pojos;
 
 import java.io.IOException;
 import java.io.ObjectInput;

@@ -1,9 +1,8 @@
-package sos.example;
+package prototype.example;
 
-import org.infinispan.factories.ComponentRegistry;
-import sos.example.pojos.Country;
-import sos.example.pojos.Person;
-import sos.infinispan.Space;
+import prototype.example.pojos.Country;
+import prototype.example.pojos.Person;
+import prototype.infinispan.Space;
 
 /**
  * Run with:

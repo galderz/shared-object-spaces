@@ -1,4 +1,4 @@
-package sos.example.pojos;
+package prototype.example.pojos;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
 

@@ -1,8 +1,8 @@
-package sos.example.pojos;
+package prototype.example.pojos;
 
 import org.infinispan.commons.marshall.AdvancedExternalizer;
 import org.infinispan.factories.GlobalComponentRegistry;
-import sos.infinispan.Space;
+import prototype.infinispan.Space;
 
 import java.util.HashMap;
 import java.util.Map;
