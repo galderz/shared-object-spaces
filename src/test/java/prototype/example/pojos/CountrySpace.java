@@ -5,10 +5,9 @@ import org.infinispan.container.DataContainer;
 import org.infinispan.factories.GlobalComponentRegistry;
 import prototype.infinispan.Space;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class CountrySpace implements Space<String, Country> {
+
+   public static final String NAME = "CountrySpace";
 
    private AdvancedExternalizer<Object> externalizer =
       new Country.Externalizer();
@@ -31,7 +30,7 @@ public class CountrySpace implements Space<String, Country> {
 
    @Override
    public String name() {
-      return "CountrySpace";
+      return NAME;
    }
 
    @Override

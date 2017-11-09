@@ -21,7 +21,7 @@ public class SpaceLoader extends AbstractModuleLifecycle {
    public void cacheManagerStarting(GlobalComponentRegistry gcr, GlobalConfiguration global) {
       ServiceLoader<Space> srvLoader = ServiceLoader.load(Space.class);
       for (Space<?, ?> space : srvLoader) {
-         gcr.registerComponent(space, Space.class);
+         gcr.registerComponent(space, Spaces.getId(space.name()));
          SpaceExternalizer ext = new SpaceExternalizer(space);
          global.serialization().advancedExternalizers().put(ext.getId(), ext);
       }
@@ -29,9 +29,13 @@ public class SpaceLoader extends AbstractModuleLifecycle {
 
    @Override
    public void cacheManagerStarted(GlobalComponentRegistry gcr) {
-      Space<?, ?> space = gcr.getComponent(Space.class);
-      EmbeddedCacheManager cacheManager = gcr.getComponent(EmbeddedCacheManager.class);
-      space.init(gcr, createDataContainer(space, cacheManager));
+      gcr.getRegisteredComponents().stream()
+         .filter(comp -> comp.getInstance() instanceof Space)
+         .map(comp -> (Space<?, ?>) comp.getInstance())
+         .forEach(space -> {
+            EmbeddedCacheManager cacheManager = gcr.getComponent(EmbeddedCacheManager.class);
+            space.init(gcr, createDataContainer(space, cacheManager));
+         });
    }
 
    private <K, V> DataContainer<K, V> createDataContainer(Space<?, ?> space, EmbeddedCacheManager manager) {
@@ -39,7 +43,7 @@ public class SpaceLoader extends AbstractModuleLifecycle {
       if (space.size() > 0)
          builder.memory().size(space.size());
 
-      String containerName = "prototype.space." + space.name();
+      String containerName = Spaces.getId(space.name());
       manager.defineConfiguration(containerName, builder.build());
       AdvancedCache<?, ?> cache = manager.getCache(containerName).getAdvancedCache();
       return getDataContainer(cache);

@@ -13,18 +13,20 @@ import org.infinispan.commons.marshall.SerializeWith;
 public class Person {
 
    public final String name;
+   public final Address address;
    public final Country nationality;
 
-   public Person(String name, Country nationality) {
+   public Person(String name, Address address, Country nationality) {
       this.name = name;
+      this.address = address;
       this.nationality = nationality;
    }
 
    @Override
    public String toString() {
       return String.format(
-            "Person{nationality=%s, name='%s'}@%x",
-            nationality, name, System.identityHashCode(this));
+            "Person{nationality=%s, address='%s', name='%s'}@%x",
+            nationality, address, name, System.identityHashCode(this));
    }
 
    public static final class ExternalizerImpl implements Externalizer<Person> {
@@ -33,13 +35,15 @@ public class Person {
       public void writeObject(ObjectOutput out, Person obj) throws IOException {
          out.writeUTF(obj.name);
          out.writeObject(obj.nationality);
+         out.writeObject(obj.address);
       }
 
       @Override
       public Person readObject(ObjectInput in) throws IOException, ClassNotFoundException {
          String name = in.readUTF();
          Object nationality = in.readObject();
-         return new Person(name, (Country) nationality);
+         Object address = in.readObject();
+         return new Person(name, (Address) address, (Country) nationality);
       }
 
    }

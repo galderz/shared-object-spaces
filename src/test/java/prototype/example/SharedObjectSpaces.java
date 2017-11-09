@@ -1,8 +1,12 @@
 package prototype.example;
 
+import prototype.example.pojos.Address;
+import prototype.example.pojos.AddressSpace;
 import prototype.example.pojos.Country;
+import prototype.example.pojos.CountrySpace;
 import prototype.example.pojos.Person;
 import prototype.infinispan.Space;
+import prototype.infinispan.Spaces;
 
 /**
  * Run with:
@@ -14,25 +18,41 @@ public class SharedObjectSpaces {
 
    public static void main(String[] args) {
       Cluster.<String, Person>withCluster((c0, c1) -> {
-         Space countrySpace = c0.getCacheManager().getGlobalComponentRegistry().getComponent(Space.class);
+         Space<String, Country> countrySpace =
+            c0.getCacheManager().getGlobalComponentRegistry()
+               .getComponent(Spaces.getId(CountrySpace.NAME));
 
-         Person me = new Person("me", (Country) countrySpace.get("Spain"));
-         Person you = new Person("you", (Country) countrySpace.get("Spain"));
+         Space<String, Address> addressSpace =
+            c0.getCacheManager().getGlobalComponentRegistry()
+               .getComponent(Spaces.getId(AddressSpace.NAME));
+
+         Address address = addressSpace.get("48990/My Street/14");
+         Country country = countrySpace.get("Spain");
+
+         Person me = new Person("me", address, country);
+         Person you = new Person("you", address, country);
 
          c0.put("me", me);
          c0.put("you", you);
+         assertSame(me.address, you.address);
          assertSame(me.nationality, you.nationality);
 
          Person me0 = c0.get("me");
          Person you0 = c0.get("you");
+         assertEquals("48990", me0.address.postCode);
+         assertEquals("48990", you0.address.postCode);
          assertEquals("Spain", me0.nationality.name);
          assertEquals("Spain", you0.nationality.name);
+         assertSame(me0.address, you0.address);
          assertSame(me0.nationality, you0.nationality);
 
          Person me1 = c1.get("me");
          Person you1 = c1.get("you");
+         assertEquals("48990", me1.address.postCode);
+         assertEquals("48990", you1.address.postCode);
          assertEquals("Spain", me1.nationality.name);
          assertEquals("Spain", you1.nationality.name);
+         assertSame(me1.address, you1.address);
          assertSame(me1.nationality, you1.nationality);
       });
    }
